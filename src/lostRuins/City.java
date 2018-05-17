@@ -57,6 +57,10 @@ public class City {
 	public void setHeight(int h) {
 		this.h = h;
 	}
+	
+	public ArrayList<Integer> getLinks() {
+		return new ArrayList<>(linkedCities);
+	}
 
 	public void addLink(int i) {
 		linkedCities.add(i);

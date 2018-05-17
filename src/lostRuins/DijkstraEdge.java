@@ -1,15 +1,21 @@
 package lostRuins;
 
 public class DijkstraEdge {
-	int weight;
+	double weight;
 	int fromId;
 	int toId;
+	
+	public DijkstraEdge(int sourceId, int destinationId, double weight) {
+		this.fromId = sourceId;
+		this.toId = destinationId;
+		this.weight = weight;
+	}
 	
 	public int getDestination() {
 		return toId;
 	}
 	
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
 }
