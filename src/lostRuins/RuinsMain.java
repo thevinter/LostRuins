@@ -3,7 +3,7 @@ package lostRuins;
 public class RuinsMain {
 
 	public static void main(String[] args) {
-		int numberFile = 2000;
+		int numberFile = 10000;
 		
 		Reader reader = new Reader();
 		reader.setFilePath(String.format("./input/PgAr_Map_%d.xml", numberFile));

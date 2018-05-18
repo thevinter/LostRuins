@@ -45,10 +45,11 @@ public class Dijkstra {
 			DijkstraNode tempNode = minDist();
 			int tempId = tempNode.getId();
 			unvisitedNodes.remove(findIndex(tempNode));
+			tempNode.setVisited();
 			for(DijkstraEdge edge : tempNode.getEdges()) {
 				int edgeDest = edge.getDestination();
 				// if the destination node is not in the unvisited nodes list, then continue
-				if(findIndex(edgeDest) == -1){
+				if(allNodes.get(edge.getDestination()).isVisited()){
 					continue;
 				}
 				double alt_dist = dist[tempId] + edge.getWeight();
@@ -83,7 +84,7 @@ public class Dijkstra {
 								newOne = prev[newOne];
 							}
 							
-							if (oldOne > newOne)
+							if (maxOld > maxNew)
 								continue;
 						}
 					}
@@ -130,14 +131,14 @@ public class Dijkstra {
 	
 	
 	private int findIndex(int id) {
-		int index = -1;
-		for (int i = 0; i < unvisitedNodes.size(); i++) {
-			if(unvisitedNodes.get(i).getId() == id) {
-				index = i;
-				break;
+		int i = 0;
+		for (DijkstraNode node : unvisitedNodes) {
+			if(node.getId() == id) {
+				return i;
 			}
+			i++;
 		}
-		return index;
+		return -1;
 	}
 
 	public double getDistance(int destId) {

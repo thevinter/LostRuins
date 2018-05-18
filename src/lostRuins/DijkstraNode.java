@@ -5,13 +5,23 @@ import java.util.ArrayList;
 public class DijkstraNode {
 	private String label;
 	private int id;
+	private boolean visited;
 	private ArrayList<DijkstraEdge> edges = new ArrayList<>();
 	
 	public DijkstraNode(int id, String label) {
 		this.id = id;
 		this.label = label;
+		visited = false;
 	}
 	
+	public boolean isVisited() {
+		return visited;
+	}
+
+	public void setVisited() {
+		this.visited = true;
+	}
+
 	public int getId() {
 		return this.id;
 	}
