@@ -52,6 +52,8 @@ public class DijkstraNode {
 		out.append(id);
 		out.append(", name: ");
 		out.append(label);
+		out.append(", vis: ");
+		out.append(visited ? "y" : "n");
 		return out.toString();
 	}
 }

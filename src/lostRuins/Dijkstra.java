@@ -40,7 +40,7 @@ public class Dijkstra {
 	}
 	
 	public void dijkstraAlghoritm() {
-		while(unvisitedNodes.size() != 0) {
+		while(!unvisitedNodes.isEmpty()) {
 //			System.out.printf("Completed: %5d/%d nodes - %6.2f%%%n", allNodes.size() - unvisitedNodes.size(), allNodes.size(), (double)(allNodes.size() - unvisitedNodes.size()) / allNodes.size() * 100 );
 			DijkstraNode tempNode = minDist();
 			int tempId = tempNode.getId();
@@ -122,6 +122,8 @@ public class Dijkstra {
 				minNode = node;
 			}
 		}
+		if (minDist == Double.POSITIVE_INFINITY)
+			minNode = unvisitedNodes.getFirst();
 		return minNode;
 	}
 	
