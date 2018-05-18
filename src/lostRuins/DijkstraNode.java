@@ -48,11 +48,10 @@ public class DijkstraNode {
 	
 	public String toString() {
 		StringBuffer out = new StringBuffer();
-		out.append("\tID: ");
-		out.append(id);
-		out.append(", name: ");
-		out.append(label);
-		out.append(", vis: ");
+		out.append("  ID: ");
+		out.append(String.format("%5d", id));
+		out.append(String.format(" %-17s", "(" + label + ")"));
+		out.append("-> vis: ");
 		out.append(visited ? "y" : "n");
 		return out.toString();
 	}
