@@ -2,6 +2,7 @@ package lostRuins;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Dijkstra {
@@ -43,7 +44,7 @@ public class Dijkstra {
 		while(!unvisitedNodes.isEmpty()) {
 			DijkstraNode tempNode = minDist();
 			int tempId = tempNode.getId();
-			unvisitedNodes.remove(findIndex(tempNode));
+			removeVisited(tempNode, unvisitedNodes);
 			tempNode.setVisited();
 			for(DijkstraEdge edge : tempNode.getEdges()) {
 				int edgeDest = edge.getDestination();
@@ -97,6 +98,16 @@ public class Dijkstra {
 		}
 	}
 	
+	private void removeVisited(DijkstraNode node, LinkedList<DijkstraNode> nodes) {
+		for (Iterator<DijkstraNode> iter = nodes.iterator(); iter.hasNext(); ) {
+			DijkstraNode next = iter.next();
+			if (node.getId() == next.getId()) {
+				iter.remove();
+				return;
+			}	
+		}
+	}
+
 	public ArrayList<DijkstraNode> getPathTo(int destId) {
 		ArrayList<DijkstraNode> out = new ArrayList<>();
 		int nextNodeId = destId;
@@ -129,22 +140,6 @@ public class Dijkstra {
 		return minNode;
 	}
 	
-	private int findIndex(DijkstraNode node) {
-		return findIndex(node.getId());
-	}
-	
-	
-	private int findIndex(int id) {
-		int i = 0;
-		for (DijkstraNode node : unvisitedNodes) {
-			if(node.getId() == id) {
-				return i;
-			}
-			i++;
-		}
-		return -1;
-	}
-
 	public double getDistanceTo(int destId) {
 		return dist[destId];
 	}

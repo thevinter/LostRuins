@@ -33,7 +33,8 @@ public class RuinsMain {
 		// asks the user which file to use
 		Menu menu = new Menu(MENU_TITLE, VALID_NUMBER_OF_CITIES);
 		int numberFile = VALID_NUMBER_OF_CITIES[menu.choose()];
-		
+
+		long initTime = System.nanoTime();
 		// XML input to a RuinsMap object
 		Reader reader = new Reader();
 		reader.setFilePath(String.format(GENERIC_FILE_PATH, numberFile));
@@ -53,6 +54,7 @@ public class RuinsMain {
 		Writer writer = new Writer(OUTPUT_FILE_PATH, sol);
 		writer.init();
 		System.out.println( writer.run() ? SUCCESSFUL_PRINT_MESSAGE : FAILED_PRINT_MESSAGE );
+		System.out.printf("(Program executed in %dms)%n", (System.nanoTime() - initTime) / 1000000);
 	}
 
 	private static void dijkstraIntoWritable(ArrayList<DijkstraNode> nodes, WriterTag container, String nodeTag) {
