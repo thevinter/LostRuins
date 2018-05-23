@@ -41,7 +41,6 @@ public class Dijkstra {
 	
 	public void dijkstraAlghoritm() {
 		while(!unvisitedNodes.isEmpty()) {
-//			System.out.printf("Completed: %5d/%d nodes - %6.2f%%%n", allNodes.size() - unvisitedNodes.size(), allNodes.size(), (double)(allNodes.size() - unvisitedNodes.size()) / allNodes.size() * 100 );
 			DijkstraNode tempNode = minDist();
 			int tempId = tempNode.getId();
 			unvisitedNodes.remove(findIndex(tempNode));
@@ -100,7 +99,6 @@ public class Dijkstra {
 	
 	public ArrayList<DijkstraNode> getPathTo(int destId) {
 		ArrayList<DijkstraNode> out = new ArrayList<>();
-		int cost = 0;
 		int nextNodeId = destId;
 		while (nextNodeId != rootId) {
 			DijkstraNode node = allNodes.get(nextNodeId);
@@ -111,6 +109,10 @@ public class Dijkstra {
 		out.add(allNodes.get(nextNodeId));
 		Collections.reverse(out);
 		return out;
+	}
+	
+	public ArrayList<DijkstraNode> getPathToLast() {
+		return getPathTo(allNodes.size() - 1);
 	}
 	
 	private DijkstraNode minDist() {
@@ -143,7 +145,11 @@ public class Dijkstra {
 		return -1;
 	}
 
-	public double getDistance(int destId) {
+	public double getDistanceTo(int destId) {
 		return dist[destId];
+	}
+	
+	public double getDistanceToLast() {
+		return dist[dist.length - 1];
 	}
 }

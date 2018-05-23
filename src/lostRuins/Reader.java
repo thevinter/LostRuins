@@ -8,26 +8,25 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 
 /**
- * <p>This class implements a reader for xml files, with interactions with the {@link FileData}</p>
+ * <p>This class implements a reader for xml files, with interactions with the {@link RuinsMap} class</p>
  * <p>It can read xml files with the following structure:<br>
  * <ul><li>The whole file is contained inside a root tag named {@link #ROOT_TAG}</li>
- * <li>Every row of the table must be contained in a tag named {@link #ROW_TAG}</li>
- * <li>Every row must contain all the values inside of title tags.</li>
- * <li>The title tags must be all present (implicit tags are not supported)</li>
- * <li>For empty data values, both self-closing tags ({@code <title />}) and opening and closing tags ({@code <title> </title>}) are supported</li></ul>
+ * <li>Every city must be contained in a tag named {@link #ROW_TAG}</li>
+ * <li>Every value must be contained inside attributes identified by {@link #X_STRING}, {@link #Y_STRING}, {@link #H_STRING}, {@link #NAME_STRING} and {@link #ID_STRING} </li>
+ * <li>Inside every city tag, linked are marked by tags named {@link #LINK_TAG}, with a single attribute containing the id of the destination of the link</li>
  * <p>The reading methods were adapted from {@link https://docs.oracle.com/javase/tutorial/jaxp/stax/example.html}
  */
 public class Reader {
 	
 	private static final String ROOT_TAG = "map";
 	private static final String ROW_TAG = "city";
-	private static final Object LINK_TAG = "link";
+	private static final String LINK_TAG = "link";
 	
-	private static final Object X_STRING = "x";
-	private static final Object Y_STRING = "y";
-	private static final Object H_STRING = "h";
-	private static final Object NAME_STRING = "name";
-	private static final Object ID_STRING = "id";
+	private static final String X_STRING = "x";
+	private static final String Y_STRING = "y";
+	private static final String H_STRING = "h";
+	private static final String NAME_STRING = "name";
+	private static final String ID_STRING = "id";
 	
 	private String filePath = null;
 	private XMLInputFactory xmlif;
@@ -35,12 +34,7 @@ public class Reader {
     private RuinsMap ruinsMap;
     private City currentCity;
     
-    private String tempTitle;
-    
-    private boolean started = false;
     private boolean finished = false;
-	private boolean dataTagOpened = false;
-	private boolean dataInserted = false;
 	
 	/**
 	 * <p>Basic constructor that just initializes the object</p>
@@ -130,6 +124,12 @@ public class Reader {
 	    }
 	}
 	
+	/**
+	 * <p>Private method to handle data storage after reading an attribute from a given tag
+	 * @param tag The tag containing the attribute
+	 * @param name The name of the attribute
+	 * @param value The value of the attribute
+	 */
 	private void attribute(String tag, String name, String value) {
 		if (tag.equals(ROOT_TAG)) {
 			initFile(Integer.parseInt(value));
@@ -155,7 +155,7 @@ public class Reader {
 	}
 
 	/**
-	 * <p>Private method to initialize the FileData object, where all of the data will be stored
+	 * <p>Private method to initialize the {@code RuinsMap} object, where all of the data will be stored
 	 */
 	private void initFile(int size) {
 		ruinsMap = new RuinsMap(size);
@@ -173,8 +173,6 @@ public class Reader {
 		if (elementName.equals(ROW_TAG)) {
 			currentCity = new City();
 		}
-		dataTagOpened = true;
-		tempTitle = elementName;
 		return true;
 	}
 	
@@ -194,7 +192,7 @@ public class Reader {
 	
 	/**
 	 * <p>Reads all of the data in the xml file and stores it privately.</p>
-	 * <p>See {@link #returnData()} to retrieve all of the data in the form of a {@code FileData} object
+	 * <p>See {@link #returnData()} to retrieve all of the data in the form of a {@code RuinsMap} object
 	 * @return True if the whole operation is successful, false otherwise
 	 */
 	public boolean readAll() {
@@ -204,8 +202,8 @@ public class Reader {
 	}
 	
 	/**
-	 * <p>Returns all of the saved data in the form of a {@code FileData} object
-	 * @return A {@code FileData} object containing all of the data
+	 * <p>Returns all of the saved data in the form of a {@code RuinsMap} object
+	 * @return A {@code RuinsMap} object containing all of the data
 	 */
 	public RuinsMap returnData() {
 		return ruinsMap;
