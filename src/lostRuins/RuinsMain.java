@@ -2,7 +2,7 @@ package lostRuins;
 
 import java.util.ArrayList;
 /**
- * <p>Class that holds the {@link #main(String[])} class
+ * <p>Class that holds the {@link #main(String[])} method
  */
 public class RuinsMain {
 

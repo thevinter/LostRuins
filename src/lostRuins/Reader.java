@@ -13,7 +13,7 @@ import javax.xml.stream.XMLStreamReader;
  * <ul><li>The whole file is contained inside a root tag named {@link #ROOT_TAG}</li>
  * <li>Every city must be contained in a tag named {@link #ROW_TAG}</li>
  * <li>Every value must be contained inside attributes identified by {@link #X_STRING}, {@link #Y_STRING}, {@link #H_STRING}, {@link #NAME_STRING} and {@link #ID_STRING} </li>
- * <li>Inside every city tag, linked are marked by tags named {@link #LINK_TAG}, with a single attribute containing the id of the destination of the link</li>
+ * <li>Inside every city tag, linked are marked by tags named {@link #LINK_TAG}, with a single attribute containing the id of the destination of the link</li></ul></p>
  * <p>The reading methods were adapted from {@link https://docs.oracle.com/javase/tutorial/jaxp/stax/example.html}
  */
 public class Reader {
