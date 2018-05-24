@@ -178,7 +178,7 @@ public class Reader {
 	
 	/**
 	 * <p>Private method called when the reader finds the end of an element
-	 * @param closedElementName The neme of the closing element
+	 * @param closedElementName The name of the closing element
 	 */
 	private void closedElement(String closedElementName) {
 		if (closedElementName.equals(ROOT_TAG)) {

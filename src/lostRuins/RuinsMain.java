@@ -1,7 +1,9 @@
 package lostRuins;
 
 import java.util.ArrayList;
-
+/**
+ * <p>Class that holds the {@link #main(String[])} class
+ */
 public class RuinsMain {
 
 	private static final String MENU_TITLE = "Welcome to Route to the Ruins! How many cities does your reality have?";
@@ -27,7 +29,10 @@ public class RuinsMain {
 	private static final String TEAM_COST_ATT = "cost";
 	private static final String TEAM_CITIES_ATT = "cities";
 	
-	
+	/**
+	 * <p>The {@code main} method 
+	 * @param args The args
+	 */
 	public static void main(String[] args) {
 		
 		// asks the user which file to use
@@ -36,13 +41,10 @@ public class RuinsMain {
 
 		long initTime = System.nanoTime();
 		// XML input to a RuinsMap object
-		Reader reader = new Reader();
-		reader.setFilePath(String.format(GENERIC_FILE_PATH, numberFile));
-		reader.readAll();
-		RuinsMap map = reader.returnData();
+		RuinsMap map = readMap(String.format(GENERIC_FILE_PATH, numberFile));
 		
 		// executes dijkstra and stores the result
-		WriterTag sol = new WriterTag(ROOT_TAG);
+		XMLWriterTag sol = new XMLWriterTag(ROOT_TAG);
 		// tonatiuh
 		Dijkstra algorithm = new Dijkstra(map.getTonatiuhDijkstra());
 		sol.addSubTag(runDijkstraToWritable(algorithm, TONATIUH));
@@ -51,15 +53,33 @@ public class RuinsMain {
 		sol.addSubTag(runDijkstraToWritable(algorithm, METZTLI));
 		
 		// writing on file
-		Writer writer = new Writer(OUTPUT_FILE_PATH, sol);
+		XMLWriter writer = new XMLWriter(OUTPUT_FILE_PATH, sol);
 		writer.init();
 		System.out.println( writer.run() ? SUCCESSFUL_PRINT_MESSAGE : FAILED_PRINT_MESSAGE );
 		System.out.printf("(Program executed in %dms)%n", (System.nanoTime() - initTime) / 1000000);
 	}
+	
+	/**
+	 * <p>This method reads the input file and returns a {@code RuinsMap} object containing the data
+	 * @param path The path of the input file
+	 * @return The map
+	 */
+	public static RuinsMap readMap(String path) {
+		Reader reader = new Reader();
+		reader.setFilePath(path);
+		reader.readAll();
+		return reader.returnData();
+	}
 
-	private static void dijkstraIntoWritable(ArrayList<DijkstraNode> nodes, WriterTag container, String nodeTag) {
+	/**
+	 * <p>Writes a dijkstra path into a {@code XMLWriterTag}
+	 * @param nodes The path
+	 * @param container The XMLWriterTag that will contain the final data
+	 * @param nodeTag Tha name of every node tag
+	 */
+	public static void dijkstraIntoWritable(ArrayList<DijkstraNode> nodes, XMLWriterTag container, String nodeTag) {
 		for (DijkstraNode n : nodes) {
-			WriterTag city = new WriterTag(nodeTag);
+			XMLWriterTag city = new XMLWriterTag(nodeTag);
 			city.addAttribute(CITY_ID_ATT, n.getId());
 			city.addAttribute(CITY_NAME_ATT, n.getLabel());
 			
@@ -67,10 +87,16 @@ public class RuinsMain {
 		}
 	}
 	
-	private static WriterTag runDijkstraToWritable(Dijkstra dijkstra, String teamName) {
+	/**
+	 * <p>Runs Dijkstra's algorithm on a given {@code Dijkstra] class
+	 * @param dijkstra The initialized {@code Dijkstra} object
+	 * @param teamName The name of the team (to be printed in the file)
+	 * @return A {@code XMLWriterTag} containing the desired path
+	 */
+	public static XMLWriterTag runDijkstraToWritable(Dijkstra dijkstra, String teamName) {
 		dijkstra.dijkstraAlghoritm();
 		ArrayList<DijkstraNode> dijPath = dijkstra.getPathToLast();
-		WriterTag route = new WriterTag(TEAM_TAG);
+		XMLWriterTag route = new XMLWriterTag(TEAM_TAG);
 		route.addAttribute(TEAM_NAME_ATT, teamName);
 		route.addAttribute(TEAM_COST_ATT, dijkstra.getDistanceToLast());
 		route.addAttribute(TEAM_CITIES_ATT, dijPath.size());
