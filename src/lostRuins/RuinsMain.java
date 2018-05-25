@@ -39,7 +39,6 @@ public class RuinsMain {
 		Menu menu = new Menu(MENU_TITLE, VALID_NUMBER_OF_CITIES);
 		int numberFile = VALID_NUMBER_OF_CITIES[menu.choose()];
 
-		long initTime = System.nanoTime();
 		// XML input to a RuinsMap object
 		RuinsMap map = readMap(String.format(GENERIC_FILE_PATH, numberFile));
 		
@@ -56,7 +55,6 @@ public class RuinsMain {
 		XMLWriter writer = new XMLWriter(OUTPUT_FILE_PATH, sol);
 		writer.init();
 		System.out.println( writer.run() ? SUCCESSFUL_PRINT_MESSAGE : FAILED_PRINT_MESSAGE );
-		System.out.printf("(Program executed in %dms)%n", (System.nanoTime() - initTime) / 1000000);
 	}
 	
 	/**

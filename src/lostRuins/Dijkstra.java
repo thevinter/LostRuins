@@ -12,7 +12,8 @@ import java.util.LinkedList;
  * <li>Every node will contain a {@code label}, a unique {@code id} and a list of {@code DijkstraEdge} object containing the data for all of the edges starting from such node</li></ul>
  */
 public class Dijkstra {
-	private static final int UNKNOWN_VALUE = -1; //an unknown value that we actually know eheheheheh
+	private static final int UNKNOWN_NODE = -1; //an unknown value that we actually know
+	private static final double DISTANCE_INITIALIZER = Double.POSITIVE_INFINITY;
 	
 	private int rootId;
 	
@@ -40,10 +41,8 @@ public class Dijkstra {
 		numberOfNodesInPath = new int[size];
 		maxIndexInPath = new int[size];
 		for(int i = 0; i < allNodes.size(); i++) {
-			dist[i] = Double.POSITIVE_INFINITY;
-			prev[i] = UNKNOWN_VALUE; 
-			numberOfNodesInPath[i] = 0;
-			maxIndexInPath[i] = 0;
+			dist[i] = DISTANCE_INITIALIZER;
+			prev[i] = UNKNOWN_NODE; 
 		}
 		dist[rootId] = 0;
 		this.rootId  = rootId;
@@ -71,6 +70,8 @@ public class Dijkstra {
 	public void dijkstraAlghoritm() {
 		while(!unvisitedNodes.isEmpty()) {
 			DijkstraNode tempNode = minDist();
+			if (tempNode == null)
+				break;
 			int tempId = tempNode.getId();
 			removeVisited(tempNode, unvisitedNodes);
 			tempNode.setVisited();
@@ -157,7 +158,7 @@ public class Dijkstra {
 			out.add(node);
 			
 			nextNodeId = prev[nextNodeId];
-			if (nextNodeId == UNKNOWN_VALUE)
+			if (nextNodeId == UNKNOWN_NODE)
 				return null;
 		}
 		out.add(allNodes.get(nextNodeId));
@@ -180,15 +181,15 @@ public class Dijkstra {
 	 */
 	private DijkstraNode minDist() {
 		DijkstraNode minNode = null;
-		double minDist = Double.POSITIVE_INFINITY;
+		double minDist = DISTANCE_INITIALIZER;
 		for (DijkstraNode node : unvisitedNodes) {
 			if(dist[node.getId()] < minDist) {
 				minDist = dist[node.getId()];
 				minNode = node;
 			}
 		}
-		if (minDist == Double.POSITIVE_INFINITY)
-			minNode = unvisitedNodes.getFirst();
+		if (minDist == DISTANCE_INITIALIZER)
+			return null;
 		return minNode;
 	}
 	
